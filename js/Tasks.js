@@ -6,7 +6,7 @@ var Task;
 
     var nextID = 0;
 
-    Task = function (parent, description, limitDate, priority, prerequisites) {
+    Task = function (description, limitDate, priority, prerequisites) {
         "use strict";
 
         // private fields
@@ -25,7 +25,6 @@ var Task;
         // public fields
 
         this.completed = false;
-        this.parent = parent;
         this.children = [];
 
         if (typeof desc === "undefined" || desc === null) {
@@ -84,7 +83,6 @@ Task.prototype.isExpired = function () {
 
 Task.prototype.removeChild = function (child) {
     var index = this.children.indexOf(child);
-
     if (index >= 0) {
         this.children.splice(index, 1);
     }
@@ -95,14 +93,6 @@ Task.prototype.removeChild = function (child) {
 
 Task.prototype.addChild = function (child) {
     this.children.push(child);
-};
-
-Task.prototype.setParent = function (newParent) {
-    if (this.parent !== null) {
-        this.parent.removeChild(this);
-    }
-    this.parent = newParent;
-    this.parent.addChild(this);
 };
 
 loadedFiles["Tasks.js"] = true;
