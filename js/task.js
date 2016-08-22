@@ -7,4 +7,3 @@ if (typeof loadedFiles === "undefined") { var loadedFiles = {}; }
 // code ends
 
 loadedFiles["task.js"] = true;
-
