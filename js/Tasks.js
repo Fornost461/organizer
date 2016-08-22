@@ -6,7 +6,7 @@ var Task;
 
     var nextID = 0;
 
-    Task = function (description, limitDate, priority, prerequisites) {
+    Task = function (description, startingDate, endingDate, priority, prerequisites) {
         "use strict";
 
         // private fields
@@ -27,11 +27,20 @@ var Task;
         this.completed = false;
         this.children = [];
 
+
         if (typeof desc === "undefined" || desc === null) {
             this.desc = "";
         }
         else {
             this.desc = desc;
+        }
+
+
+        if (typeof startingDate === "undefined") {
+            this.startingDate = null;
+        }
+        else {
+            this.startingDate = startingDate;
         }
 
 
@@ -62,23 +71,22 @@ var Task;
 
 Task.prototype.canBeDoneNow = function () {
     var result = false;
-    if (this.limitDate === null) {
-        result = true;
-    }
-    else if (!this.isExpired()) {
-        if (this.prerequisites === null || this.prerequisites.every(Task.prototype.isCompleted)) {
-            result = true;
+    if (this.startingDate === null || this.startingDate.getTime() < Date.now()) {
+        if (this.endingDate === null || Date.now() < this.endingDate.getTime()) {
+            if (this.prerequisites === null || this.prerequisites.every(Task.prototype.isCompleted)) {
+                result = true;
+            }
         }
     }
     return result;
 }
 
 Task.prototype.isCompleted = function () {
-    return task.completed;
+    return this.completed;
 }
 
 Task.prototype.isExpired = function () {
-    return task.limitDate === null || task.limitDate > now;
+    return this.limitDate !== null && this.limitDate.getTime() < Date.now();
 }
 
 Task.prototype.removeChild = function (child) {
