@@ -28,11 +28,11 @@ var Task;
         this.children = [];
 
 
-        if (typeof desc === "undefined" || desc === null) {
-            this.desc = "";
+        if (typeof description === "undefined" || description === null) {
+            this.description = "";
         }
         else {
-            this.desc = desc;
+            this.description = description;
         }
 
 
@@ -66,6 +66,11 @@ var Task;
         else {
             this.prerequisites = prerequisites;
         }
+    };
+
+    Task.prototype.prepareForPrinting = function (output, indentLevel) {
+        output.push([indentLevel, this.description]);
+        this.children.map(function () { Task.prototype.print(output, indentLevel + 1); });
     };
 )();
 
@@ -102,5 +107,6 @@ Task.prototype.removeChild = function (child) {
 Task.prototype.addChild = function (child) {
     this.children.push(child);
 };
+
 
 loadedFiles["Task.js"] = true;
