@@ -103,4 +103,4 @@ Task.prototype.addChild = function (child) {
     this.children.push(child);
 };
 
-loadedFiles["Tasks.js"] = true;
+loadedFiles["Task.js"] = true;
