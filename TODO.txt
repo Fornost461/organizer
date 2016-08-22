@@ -1,0 +1,7 @@
+features to add
+    sort by date (taking into account prerequisites and priorities)
+    handle priorities
+    handle prerequisites/dependencies
+    show what can be done now
+    handle nested tasks
+    display/hide any degree of nested tasks
