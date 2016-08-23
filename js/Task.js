@@ -68,9 +68,27 @@ var Task;
         }
     };
 
-    Task.prototype.prepareForPrinting = function (output, indentLevel) {
-        output.push([indentLevel, this.description]);
-        this.children.map(function () { Task.prototype.print(output, indentLevel + 1); });
+    var prepareForPrinting = function (task, output, indentLevel) {    // TODO: make private
+        output.push([indentLevel, task.description]);
+        this.children.map(function () { Task.prototype.print(task, indentLevel + 1); });
+    };
+
+    var repeatString = function (str, n) {
+        var res = "";
+        for (i = 0; i < n; i += 1) {
+            res += str;
+        }
+        return res;
+    };
+
+    var tab = "\t";
+    var newLine = "\n";
+
+    Task.prototype.print = function (tree) {
+        var preparedOutput = tree.prepareForPrinting([], 0);
+        var res = "";
+        preparedOutput.forEach(function (elt) { res += repeatString(tab, elt[0]) + elt[1] + newLine });
+        return res;
     };
 )();
 
