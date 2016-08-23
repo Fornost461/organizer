@@ -68,9 +68,9 @@ var Task;
         }
     };
 
-    var prepareForPrinting = function (task, output, indentLevel) {    // TODO: make private
-        output.push([indentLevel, task.description]);
-        this.children.map(function () { Task.prototype.print(task, indentLevel + 1); });
+    var prepareForPrinting = function (task, preparedOutput, indentLevel) {    // TODO: make private
+        preparedOutput.push([task.getID(), indentLevel, task.description]);
+        this.children.map(function (subtask) { Task.prototype.prepareForPrinting(subtask, preparedOutput, indentLevel + 1); });
     };
 
     var repeatString = function (str, n) {
@@ -81,13 +81,11 @@ var Task;
         return res;
     };
 
-    var tab = "\t";
-    var newLine = "\n";
-
-    Task.prototype.print = function (tree) {
-        var preparedOutput = tree.prepareForPrinting([], 0);
-        var res = "";
-        preparedOutput.forEach(function (elt) { res += repeatString(tab, elt[0]) + elt[1] + newLine });
+    Task.prototype.print = function () {
+        var preparedOutput = prepareForPrinting(this, [], 0);
+        var res = '<select multiple="multiple">\n';
+        preparedOutput.forEach(function (line) { res += '  <option value="' + line[0] + '">' + repeatString("\t", line[1]) + line[2] + "</option>\n"; });
+        res += '</select>';
         return res;
     };
 )();
